@@ -9,3 +9,7 @@ code/
 .github/
 .nojekyll
 .vscode/
+operational_repo/
+template_repo/
+data/*.csv
+logs/
