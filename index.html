@@ -6,33 +6,110 @@
     <title>Портал курсів Google Classroom</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen">
-    <header class="bg-blue-700 text-white py-8 px-4 shadow-md">
-        <div class="max-w-6xl mx-auto text-center">
-            <h1 class="text-3xl font-bold mb-2">🏫 Портал підключення до курсів Google Classroom</h1>
-            <p class="text-blue-100">Швидкий перехід до навчальних матеріалів домену schoolgus.ukr.education</p>
-        </div>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+    <!-- Хедер -->
+    <header class="bg-blue-600 text-white py-8 px-4 text-center shadow-md">
+        <h1 class="text-3xl font-bold mb-2">🏫 Портал підключення до курсів Google Classroom</h1>
+        <p class="text-blue-100 text-sm md:text-base">Швидкий перехід до навчальних матеріалів домену schoolgus.ukr.education</p>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-8">
-        <div class="mb-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-            <input type="text" id="searchInput" placeholder="🔍 Пошук предмета чи класу (напр. 8-А, Фізика)..." 
-                   class="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <div class="flex flex-wrap gap-2" id="filterButtons">
-                <button onclick="filterCourses('all')" class="filter-btn bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium">Усі</button>
-                <button onclick="filterCourses('1-4')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">1-4 класи</button>
-                <button onclick="filterCourses('5-9')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">5-9 класи</button>
-                <button onclick="filterCourses('10-11')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">10-11 класи</button>
-                <button onclick="filterCourses('Індивідуальна')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">Індивідуальна ФН</button>
+    <!-- Основний контент -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Панель пошуку та фільтрів -->
+        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 flex flex-col gap-4">
+            <!-- Пошук -->
+            <div class="relative w-full">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                    🔍
+                </span>
+                <input type="text" id="searchInput" placeholder="Пошук предмета чи класу (напр. 8-А, Фізика)..." 
+                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+            </div>
+
+            <!-- Кнопки фільтрів за класами та ФН -->
+            <div class="flex flex-wrap gap-1.5 md:gap-2 w-full items-center justify-start" id="filterButtons">
+                <button data-filter="all" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-blue-600 text-white shadow-sm transition">Усі</button>
+                
+                <!-- 1-4 класи -->
+                <button data-filter="1" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">1 клас</button>
+                <button data-filter="2" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">2 клас</button>
+                <button data-filter="3" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">3 клас</button>
+                <button data-filter="4" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">4 клас</button>
+
+                <!-- 5-9 класи -->
+                <button data-filter="5" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">5 клас</button>
+                <button data-filter="6" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">6 клас</button>
+                <button data-filter="7" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">7 клас</button>
+                <button data-filter="8" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">8 клас</button>
+                <button data-filter="9" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">9 клас</button>
+
+                <!-- 10-11 класи -->
+                <button data-filter="10" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">10 клас</button>
+                <button data-filter="11" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">11 клас</button>
+
+                <!-- Індивідуальна ФН -->
+                <button data-filter="fn" class="filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-amber-100 text-amber-800 hover:bg-amber-200 transition">Індивідуальна ФН</button>
             </div>
         </div>
 
-        <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <!-- Сітка курсів -->
+        <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Картки генеруються скриптом -->
+        </div>
+
+        <div id="noResults" class="hidden text-center py-12 text-slate-500">
+            Курсів за вашим запитом не знайдено.
+        </div>
     </main>
 
     <script>
         let allCourses = [];
         let activeFilter = 'all';
+
+        // Визначення номера класу з назви
+        function extractGrade(name) {
+            const match = name.match(/(?:^|\s|\b)(\d{1,2})\s*[-–]?\s*[А-Яа-яA-Za-z]?\s*клас/i);
+            if (match) return parseInt(match[1], 10);
+
+            const prefixMatch = name.match(/^\d{2}\.\s*(\d{1,2})/);
+            if (prefixMatch) return parseInt(prefixMatch[1], 10);
+
+            const standaloneMatch = name.match(/\b(\d{1,2})\b/);
+            if (standaloneMatch) {
+                const val = parseInt(standaloneMatch[1], 10);
+                if (val >= 1 && val <= 11) return val;
+            }
+
+            return null;
+        }
+
+        // Формування назви та кольору бейджа
+        function getCategoryBadge(name) {
+            const nameLower = name.toLowerCase();
+            const isFN = nameLower.includes('індивідуальна фн') || nameLower.includes('екстернат') || nameLower.includes('сімейна') || nameLower.includes('педпатронаж');
+            const grade = extractGrade(name);
+
+            if (grade) {
+                if (isFN) {
+                    return { text: `${grade} клас (Індивідуальна ФН)`, class: 'bg-amber-100 text-amber-800' };
+                }
+                if (grade >= 1 && grade <= 4) {
+                    return { text: `${grade} клас (Початкова школа)`, class: 'bg-blue-100 text-blue-800' };
+                } else if (grade >= 5 && grade <= 9) {
+                    return { text: `${grade} клас (Середня школа)`, class: 'bg-indigo-100 text-indigo-800' };
+                } else if (grade >= 10 && grade <= 11) {
+                    return { text: `${grade} клас (Старша школа)`, class: 'bg-purple-100 text-purple-800' };
+                }
+            }
+
+            if (isFN) {
+                return { text: 'Індивідуальна ФН (Екстернат, Сімейна, Педпатронаж)', class: 'bg-amber-100 text-amber-800' };
+            }
+
+            return { text: 'Класні курси', class: 'bg-slate-100 text-slate-800' };
+        }
 
         async function loadCourses() {
             try {
@@ -40,51 +117,85 @@
                 allCourses = await response.json();
                 renderCourses();
             } catch (error) {
-                console.error("Помилка завантаження даних курсів:", error);
+                console.error('Помилка завантаження courses.json:', error);
             }
         }
 
         function renderCourses() {
             const grid = document.getElementById('coursesGrid');
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            grid.innerHTML = '';
+            const noResults = document.getElementById('noResults');
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
             const filtered = allCourses.filter(course => {
-                const matchesSearch = course.name.toLowerCase().includes(search) || course.section.toLowerCase().includes(search);
+                const nameLower = course.name.toLowerCase();
+                const matchesSearch = !query || nameLower.includes(query) || (course.section && course.section.toLowerCase().includes(query));
+                
                 if (!matchesSearch) return false;
 
+                const grade = extractGrade(course.name);
+                const isFN = nameLower.includes('індивідуальна фн') || nameLower.includes('екстернат') || nameLower.includes('сімейна') || nameLower.includes('педпатронаж');
+
                 if (activeFilter === 'all') return true;
-                if (activeFilter === 'Індивідуальна') return course.name.includes('Індивідуальна');
-                if (activeFilter === '1-4') return /0[1-4]|1-4|[1-4] клас/.test(course.name);
-                if (activeFilter === '5-9') return /0[5-9]|5-9|[5-9] клас/.test(course.name);
-                if (activeFilter === '10-11') return /1[01]|10-11|1[01] клас/.test(course.name);
+                if (activeFilter === 'fn') return isFN;
+
+                const targetGrade = parseInt(activeFilter, 10);
+                if (!isNaN(targetGrade)) {
+                    return grade === targetGrade;
+                }
+
                 return true;
             });
 
-            filtered.forEach(course => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow";
-                card.innerHTML = `
-                    <div>
-                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded ${course.name.includes('Індивідуальна') ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'} mb-2 inline-block">
-                            ${course.section || 'Класні курси'}
-                        </span>
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">${course.name}</h3>
-                    </div>
-                    <a href="${course.link}" target="_blank" class="mt-4 w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors">
-                        Перейти до курсу ↗
-                    </a>
-                `;
-                grid.appendChild(card);
-            });
+            grid.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                filtered.forEach(course => {
+                    const badge = getCategoryBadge(course.name);
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition';
+                    card.innerHTML = `
+                        <div>
+                            <span class="inline-block px-3 py-1 text-xs font-semibold rounded-md ${badge.class} mb-3">
+                                ${badge.text}
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-900 mb-4 leading-snug">
+                                ${course.name}
+                            </h3>
+                        </div>
+                        <a href="${course.link}" target="_blank" rel="noopener noreferrer" 
+                           class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-xl text-center flex items-center justify-center gap-2 transition">
+                            Перейти до курсу ↗
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
         }
 
-        function filterCourses(category) {
-            activeFilter = category;
-            renderCourses();
-        }
-
+        // Події
         document.getElementById('searchInput').addEventListener('input', renderCourses);
+
+        document.getElementById('filterButtons').addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if (b.dataset.filter === 'fn') {
+                    b.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-amber-100 text-amber-800 hover:bg-amber-200 transition';
+                } else {
+                    b.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+                }
+            });
+
+            btn.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-blue-600 text-white shadow-sm transition';
+
+            activeFilter = btn.dataset.filter;
+            renderCourses();
+        });
+
         loadCourses();
     </script>
 </body>
