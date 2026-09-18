@@ -13,3 +13,5 @@ operational_repo/
 template_repo/
 data/*.csv
 logs/
+local_vault/
+*.csv
