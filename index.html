@@ -65,8 +65,17 @@
     </main>
 
     <script>
+        const DOMAIN = 'schoolgus.ukr.education';
         let allCourses = [];
         let activeFilter = 'all';
+
+        // Перенаправлення через Google AccountChooser з прив'язкою до домену
+        function buildDomainCourseLink(rawLink) {
+            if (!rawLink) return '#';
+            const separator = rawLink.includes('?') ? '&' : '?';
+            const directLink = `${rawLink}${separator}authuser=${DOMAIN}`;
+            return `https://accounts.google.com/AccountChooser?hd=${DOMAIN}&continue=${encodeURIComponent(directLink)}`;
+        }
 
         // Визначення номера класу з назви
         function extractGrade(name) {
@@ -154,6 +163,8 @@
                 noResults.classList.add('hidden');
                 filtered.forEach(course => {
                     const badge = getCategoryBadge(course.name);
+                    const domainLink = buildDomainCourseLink(course.link);
+
                     const card = document.createElement('div');
                     card.className = 'bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition';
                     card.innerHTML = `
@@ -165,7 +176,7 @@
                                 ${course.name}
                             </h3>
                         </div>
-                        <a href="${course.link}" target="_blank" rel="noopener noreferrer" 
+                        <a href="${domainLink}" target="_blank" rel="noopener noreferrer" 
                            class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-xl text-center flex items-center justify-center gap-2 transition">
                             Перейти до курсу ↗
                         </a>
