@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портал курсів Google Classroom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    <header class="bg-blue-700 text-white py-8 px-4 shadow-md">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-3xl font-bold mb-2">🏫 Портал підключення до курсів Google Classroom</h1>
+            <p class="text-blue-100">Швидкий перехід до навчальних матеріалів домену schoolgus.ukr.education</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="mb-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+            <input type="text" id="searchInput" placeholder="🔍 Пошук предмета чи класу (напр. 8-А, Фізика)..." 
+                   class="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="flex flex-wrap gap-2" id="filterButtons">
+                <button onclick="filterCourses('all')" class="filter-btn bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium">Усі</button>
+                <button onclick="filterCourses('1-4')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">1-4 класи</button>
+                <button onclick="filterCourses('5-9')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">5-9 класи</button>
+                <button onclick="filterCourses('10-11')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">10-11 класи</button>
+                <button onclick="filterCourses('Індивідуальна')" class="filter-btn bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-300">Індивідуальна ФН</button>
+            </div>
+        </div>
+
+        <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <script>
+        let allCourses = [];
+        let activeFilter = 'all';
+
+        async function loadCourses() {
+            try {
+                const response = await fetch('courses.json');
+                allCourses = await response.json();
+                renderCourses();
+            } catch (error) {
+                console.error("Помилка завантаження даних курсів:", error);
+            }
+        }
+
+        function renderCourses() {
+            const grid = document.getElementById('coursesGrid');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            grid.innerHTML = '';
+
+            const filtered = allCourses.filter(course => {
+                const matchesSearch = course.name.toLowerCase().includes(search) || course.section.toLowerCase().includes(search);
+                if (!matchesSearch) return false;
+
+                if (activeFilter === 'all') return true;
+                if (activeFilter === 'Індивідуальна') return course.name.includes('Індивідуальна');
+                if (activeFilter === '1-4') return /0[1-4]|1-4|[1-4] клас/.test(course.name);
+                if (activeFilter === '5-9') return /0[5-9]|5-9|[5-9] клас/.test(course.name);
+                if (activeFilter === '10-11') return /1[01]|10-11|1[01] клас/.test(course.name);
+                return true;
+            });
+
+            filtered.forEach(course => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow";
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded ${course.name.includes('Індивідуальна') ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'} mb-2 inline-block">
+                            ${course.section || 'Класні курси'}
+                        </span>
+                        <h3 class="font-bold text-lg text-slate-900 mb-2">${course.name}</h3>
+                    </div>
+                    <a href="${course.link}" target="_blank" class="mt-4 w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors">
+                        Перейти до курсу ↗
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCourses(category) {
+            activeFilter = category;
+            renderCourses();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderCourses);
+        loadCourses();
+    </script>
+</body>
+</html>
